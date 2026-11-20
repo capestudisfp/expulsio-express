@@ -31,6 +31,12 @@ window.APP_CONFIG = {
   CARREC_DIRECTOR: "Director",
   POBLACIO: "Mataró",
 
+  // Capçalera i peu del document imprès
+  CENTRE_CURT: "Institut Miquel Biada",
+  CAPCALERA: ["Generalitat de Catalunya", "Departament d’Educació", "i Formació Professional"],
+  ADRECA: ["Av. de Josep Puig i Cadafalch, 89-99", "08303 Mataró  Tel.937981489", "a8077976@xtec.cat", "www.biada.org"],
+  PEU: { nom: "Expedient disciplinari", versio: "0", vigencia: "Octubre 2022" },
+
   FALTES: [
     "La reiterada alteració injustificada del desenvolupament normal de les activitats del centre.",
     "La reiterada manca de respecte al professorat i/o al PAS.",

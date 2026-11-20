@@ -312,20 +312,36 @@
   }
 
   function docHTML({ alumne, grup, faltes, decisio, data }) {
-    const f = C.FALTES.map((t, i) => `<li><span class="box">${faltes.includes(i) ? "☒" : "☐"}</span>${esc(t)}</li>`).join("");
+    const f = C.FALTES.map((t, i) => `<li><span class="cb${faltes.includes(i) ? " on" : ""}"></span><span>${esc(t)}</span></li>`).join("");
+    const cap = (C.CAPCALERA || ["Generalitat de Catalunya", "Departament d’Educació", "i Formació Professional"]).map(esc).join("<br>");
+    const adr = (C.ADRECA || []).map(esc).join("<br>");
+    const P = C.PEU || {};
     return `<div class="doc">
+      <header class="doc-head">
+        <img class="logo-gene" src="img/logo-generalitat.png" alt="">
+        <div class="head-txt">${cap}<br><b>${esc(C.CENTRE_CURT || C.CENTRE)}</b></div>
+      </header>
+      ${adr ? `<p class="adreca">${adr}</p>` : ""}
       <h2>EXPEDIENT DISCIPLINARI</h2>
       <p class="sub">(Document de reconeixement de la falta comesa i de l’acceptació de la sanció)</p>
-      <p>En ${esc(C.DIRECTOR)}, com a ${esc(C.CARREC_DIRECTOR.toLowerCase())} de l’${esc(C.CENTRE)}, he tingut coneixement dels fets que figuren al present escrit, fets que constitueixen una falta de les previstes a l’Article 37.1 de la Llei d’educació de Catalunya (LEC), i dels quals es desprèn la necessitat d’incoar expedient disciplinari a l’alumnat <strong>${esc(alumne || "[alumne/a]")}</strong> de <strong>${esc(grup || "[grup]")}</strong> per sancionar les presumptes faltes disciplinàries que se’n puguin derivar.</p>
-      <p>L’alumne/a reconeix el/s fet/s:</p>
+      <p>En ${esc(C.DIRECTOR)}, com a ${esc(C.CARREC_DIRECTOR.toLowerCase())} de l’${esc(C.CENTRE)}, he tingut coneixement dels fets que figuren al present escrit, fets que constitueixen una falta de les previstes a l’Article 37.1 de la Llei d’educació de Catalunya (LEC), i dels quals es desprèn la necessitat d’incoar expedient disciplinari a l’alumnat ${esc(alumne || "[alumne/a]")} de ${esc(grup || "[grup]")} per sancionar les presumptes faltes disciplinàries que se’n puguin derivar.</p>
+      <p class="reconeix">L’alumne/a reconeix el/s fet/s:</p>
       <ul class="facts">${f}</ul>
       <p class="decideixo">DECIDEIXO:</p>
-      <p>${esc(decisio || "…").replace(/\n/g, "<br>")}</p>
+      <p class="decisio">${esc(decisio || "…").replace(/\n/g, "<br>")}</p>
       <div class="signatures">
         <div>${esc(C.DIRECTOR)}<br>${esc(C.CARREC_DIRECTOR)}</div>
         <div>Signatura, nom, cognom/s i DNI<br>pare/mare o tutor/a legal</div>
       </div>
-      <p class="lloc">${esc(C.POBLACIO)}, ${esc(data)}</p>
+      <p class="lloc">${esc(C.POBLACIO)}, &nbsp;${esc(data)}</p>
+      <table class="doc-peu"><tr>
+        <td class="peu-logo"><img src="img/logo-imb.png" alt=""></td>
+        <td>Nom document: ${esc(P.nom || "Expedient disciplinari")}</td>
+        <td>Versió ${esc(P.versio ?? "0")}</td>
+        <td>Vigència des de:<br>${esc(P.vigencia || "Octubre 2022")}</td>
+        <td>Pàgina 1 de 1</td>
+        <td class="peu-logo"><img src="img/logo-certificacio.png" alt=""></td>
+      </tr></table>
     </div>`;
   }
 
