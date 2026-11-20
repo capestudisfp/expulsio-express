@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Expulsió EXPRESS · Mesures correctores</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <header class="topbar no-print">
+    <div class="brand">
+      <span class="logo">⚡</span>
+      <div>
+        <strong>Expulsió EXPRESS</strong>
+        <small>Mesures correctores</small>
+      </div>
+    </div>
+    <nav id="tabs" class="tabs" hidden>
+      <button data-tab="nova" class="active">Nova mesura</button>
+      <button data-tab="registre">Registre</button>
+    </nav>
+    <div class="user" id="user-box" hidden>
+      <span id="user-email"></span>
+      <button class="ghost" id="btn-logout">Surt</button>
+    </div>
+  </header>
+
+  <div id="demo-banner" class="banner no-print" hidden>
+    Mode demostració: dades inventades, res es desa enlloc.
+  </div>
+
+  <main class="no-print">
+    <!-- Pantalla d'accés -->
+    <section id="screen-login" class="screen center" hidden>
+      <div class="card login-card">
+        <h1>Expulsió EXPRESS</h1>
+        <p>Entra amb el teu compte de l'escola per gestionar les mesures correctores.</p>
+        <button id="btn-login" class="primary big">Entra amb Google</button>
+        <p class="muted small" id="login-msg"></p>
+      </div>
+    </section>
+
+    <!-- Falta configuració -->
+    <section id="screen-config" class="screen center" hidden>
+      <div class="card login-card">
+        <h1>Falta configurar l'app</h1>
+        <p>Omple <code>GOOGLE_CLIENT_ID</code> i <code>SPREADSHEET_ID</code> a <code>config.js</code> (vegeu el README).</p>
+        <p><a href="?demo">Prova el mode demostració →</a></p>
+      </div>
+    </section>
+
+    <!-- Nova mesura -->
+    <section id="screen-nova" class="screen" hidden>
+      <form id="form" class="layout" autocomplete="off" novalidate>
+        <div class="col-form">
+
+          <fieldset class="card">
+            <legend><span class="step">1</span> Alumne/a</legend>
+            <label class="field">Cerca ràpida
+              <input type="search" id="cerca" list="llista-alumnes" placeholder="Escriu el nom…">
+              <datalist id="llista-alumnes"></datalist>
+            </label>
+            <div class="row">
+              <label class="field">Grup
+                <select id="grup" required><option value="">— Tria el grup —</option></select>
+              </label>
+              <label class="field">Alumne/a
+                <select id="alumne" required disabled><option value="">— Tria l'alumne/a —</option></select>
+              </label>
+            </div>
+            <div id="historial-avis" class="notice" hidden></div>
+          </fieldset>
+
+          <fieldset class="card">
+            <legend><span class="step">2</span> Falta/es comesa/es</legend>
+            <div id="faltes" class="checks"></div>
+          </fieldset>
+
+          <fieldset class="card">
+            <legend><span class="step">3</span> Mesura correctora</legend>
+
+            <div class="measure">
+              <div class="measure-head">
+                <strong>Expulsió a casa</strong>
+                <div class="seg" role="radiogroup">
+                  <label><input type="radio" name="exp" value="cap" checked> No</label>
+                  <label><input type="radio" name="exp" value="periode"> Un dia o període</label>
+                  <label><input type="radio" name="exp" value="solts"> Dies solts</label>
+                </div>
+              </div>
+              <div id="exp-periode" class="measure-body" hidden>
+                <div class="row">
+                  <label class="field">Dia d'inici (o dia únic)<input type="date" id="exp-inici"></label>
+                  <label class="field">Dia final <span class="muted">(opcional)</span><input type="date" id="exp-final"></label>
+                </div>
+              </div>
+              <div id="exp-solts" class="measure-body" hidden>
+                <div id="dies-solts" class="list"></div>
+                <button type="button" class="ghost small" id="add-dia">+ Afegeix un dia</button>
+                <span class="muted small">Màxim <span id="max-dies"></span> dies.</span>
+              </div>
+            </div>
+
+            <div class="measure">
+              <div class="measure-head">
+                <label class="toggle"><input type="checkbox" id="veto-on"> <strong>Veto a sortides</strong></label>
+              </div>
+              <div id="veto-body" class="measure-body" hidden>
+                <div class="row">
+                  <label class="field">Dia únic / dia d'inici<input type="date" id="veto-inici"></label>
+                  <label class="field">Dia final <span class="muted">(opcional)</span><input type="date" id="veto-final"></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="measure">
+              <div class="measure-head">
+                <label class="toggle"><input type="checkbox" id="rest-on"> <strong>Tasca restaurativa al centre</strong></label>
+              </div>
+              <div id="rest-body" class="measure-body" hidden>
+                <div id="sessions" class="list"></div>
+                <button type="button" class="ghost small" id="add-sessio">+ Afegeix una sessió</button>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="card">
+            <legend><span class="step">4</span> Comentari intern <span class="muted">(no surt al document)</span></legend>
+            <textarea id="comentari" rows="2" placeholder="Opcional"></textarea>
+          </fieldset>
+
+          <div id="errors" class="errors" hidden></div>
+
+          <div class="actions">
+            <button type="button" class="ghost" id="btn-neteja">Neteja</button>
+            <button type="button" class="secondary" id="btn-imprimeix">Només imprimeix</button>
+            <button type="submit" class="primary" id="btn-desa">Desa al registre i imprimeix</button>
+          </div>
+        </div>
+
+        <aside class="col-preview">
+          <div class="preview-head">
+            <strong>Vista prèvia del document</strong>
+            <span class="muted small">Pots retocar el text de la decisió</span>
+          </div>
+          <div class="paper" id="preview"></div>
+          <label class="field">Text de "DECIDEIXO"
+            <textarea id="decisio" rows="9"></textarea>
+          </label>
+          <button type="button" class="ghost small" id="btn-restableix" hidden>↺ Torna al text automàtic</button>
+        </aside>
+      </form>
+    </section>
+
+    <!-- Registre -->
+    <section id="screen-registre" class="screen" hidden>
+      <div class="card">
+        <div class="reg-toolbar">
+          <input type="search" id="reg-cerca" placeholder="Cerca per nom o grup…">
+          <select id="reg-tipus">
+            <option value="">Totes les mesures</option>
+            <option value="Expulsió">Amb expulsió</option>
+            <option value="Veto">Amb veto</option>
+            <option value="Restaurativa">Amb restaurativa</option>
+          </select>
+          <button class="ghost" id="reg-refresca">↻ Actualitza</button>
+          <button class="ghost" id="reg-csv">⬇ Exporta CSV</button>
+        </div>
+        <div id="reg-stats" class="stats"></div>
+        <div class="table-wrap">
+          <table id="reg-taula">
+            <thead><tr>
+              <th>Data</th><th>Grup</th><th>Alumne/a</th><th>Tipus</th>
+              <th>Expulsió</th><th>Veto</th><th>Restaurativa</th><th>Registrat per</th><th></th>
+            </tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p class="muted small" id="reg-buit" hidden>No hi ha cap registre.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast no-print" hidden></div>
+
+  <!-- Document per imprimir -->
+  <div id="print-area" class="print-only"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# Mai pugeu dades d'alumnes al repositori
+*.xlsx
+*.xls
+*.xlsm
+*.ods
+*.csv
+*.tsv
+*.pdf
+dades/
+.DS_Store
