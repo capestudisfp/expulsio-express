@@ -9,7 +9,7 @@ window.APP_CONFIG = {
   GOOGLE_CLIENT_ID: "",
 
   // ID del Google Sheet (el tros llarg de l'URL entre /d/ i /edit).
-  SPREADSHEET_ID: "1vfR8xL6yzcTboe5WMm9kKUJNYv4_jyxM4zlBwZcJuUY",
+  SPREADSHEET_ID: "1UMmXl2rMsoSw8p9V_r-gy81HLyLroMfkwnj4D_1IRFU",
 
   // Domini del Google Workspace de l'escola (limita el selector de comptes).
   DOMINI: "biada.net",
