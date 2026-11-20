@@ -6,7 +6,7 @@
 window.APP_CONFIG = {
   // ID de client OAuth de Google Cloud (tipus "Aplicació web").
   // Exemple: "1234567890-abc123.apps.googleusercontent.com"
-  GOOGLE_CLIENT_ID: "",
+  GOOGLE_CLIENT_ID: "333848844350-h1ug173bnto4anlbhrvh4ughrft04ikr.apps.googleusercontent.com",
 
   // ID del Google Sheet (el tros llarg de l'URL entre /d/ i /edit).
   SPREADSHEET_ID: "1UMmXl2rMsoSw8p9V_r-gy81HLyLroMfkwnj4D_1IRFU",
