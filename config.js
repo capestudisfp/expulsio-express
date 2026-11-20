@@ -18,7 +18,7 @@ window.APP_CONFIG = {
   // El control d'accés REAL és amb qui comparteixes el Google Sheet;
   // aquesta llista només evita que algú altre vegi la interfície.
   USUARIS_AUTORITZATS: [
-    // "nom.cognom@biada.net",
+    "capestudis@biada.net","coordinaciopedagogica@biada.net","coordinacio.pedagogicafp@biada.net","capestudisfp@biada.net"
   ],
 
   // Pestanyes del Google Sheet
